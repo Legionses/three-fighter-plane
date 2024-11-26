@@ -1,24 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import MainScene from "./containers/MainScene";
+import HomePage from "./containers/HomePage/HomePage";
+import PlanePresentation from "./containers/PlanePresentation/PlanePresentation";
+import AppContextProvider from "./utils/hooks/useAppContext";
+import {useAppContext} from "./utils/hooks/useAppContext";
+
+const Overlay = () => {
+    const {appMode, setAppMode} = useAppContext();
+
+    return <>
+        {appMode === 'menu' && <HomePage setMode={setAppMode}/>}
+        {appMode === 'history' && <PlanePresentation/>}
+    </>
+}
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <AppContextProvider>
+          <div className="App">
+              <MainScene/>
+              <Overlay/>
+          </div>
+      </AppContextProvider>
   );
 }
 
